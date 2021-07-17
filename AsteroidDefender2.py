@@ -1,10 +1,10 @@
 import random
 import pygame
+import time
 from pygame.locals import *
 
 
-def shitty_logo(fps, duration, text_path, screen, names=None):
-    counter = fps * duration
+def shitty_logo(duration, text_path, screen, names=None):
     text_path += "\\" if text_path[-1] != "\\" else ""
     paths = []
     if names is None:
@@ -16,10 +16,10 @@ def shitty_logo(fps, duration, text_path, screen, names=None):
     for i in range(amount):
         logo = pygame.image.load(paths[i])
         loc = (screen.get_size()[0] / 2 - logo.get_size()[0] / 2, screen.get_size()[1] / 2 - logo.get_size()[1] / 2)
-        for i2 in range(int(counter / amount)):
-            screen.fill((0, 0, 0))
-            screen.blit(logo, loc)
-            pygame.display.update()
+        screen.fill((0, 0, 0))
+        screen.blit(logo, loc)
+        pygame.display.update()
+        time.sleep(duration / amount)
 
 
 class Button:
@@ -130,7 +130,7 @@ update = 0
 listLens = [len(projList), len(astList)]
 empty_sound = pygame.mixer.Sound("sfx\\empty.wav")
 
-shitty_logo(80, 4, "text\\", screen)
+shitty_logo(3, "text\\", screen)
 
 while run:
     mouse_pos = pygame.mouse.get_pos()
