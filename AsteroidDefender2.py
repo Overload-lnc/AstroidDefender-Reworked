@@ -101,7 +101,7 @@ astList = [ast_text.get_rect(), ast_text.get_rect()]
 astFalling = [False, False]
 astCanFall = [False, False]
 x_limit = 500 - astList[0].width
-extra_y = 40
+extra_y = 40 + astList[0].height - 18
 astList[0].x = -50
 
 proj_text = pygame.image.load("text\\proj.png")
@@ -222,7 +222,7 @@ while run:
     if score_counter == 5:
             speed = 2
     elif score_counter == 10:
-            extra_y = 80
+            extra_y = 80 + astList[0].height - 18
             gravity = 2
     elif score_counter == 15:
             speed = 3
@@ -231,7 +231,7 @@ while run:
     elif score_counter == 20:
             velocity = 4
     elif score_counter == 30:
-            extra_y = 120
+            extra_y = 120 + astList[0].height - 18
     # button1 text update
     if started and button1.text == "Start":
         button1.set_text_attribs("Restart", offsets=[22, 2])
