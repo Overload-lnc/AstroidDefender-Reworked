@@ -1,10 +1,10 @@
 import random
 import pygame
+import time
 from pygame.locals import *
 
 
-def shitty_logo(fps, duration, text_path, screen, names=None):
-    counter = fps * duration
+def shitty_logo(duration, text_path, screen, names=None):
     text_path += "\\" if text_path[-1] != "\\" else ""
     paths = []
     if names is None:
@@ -16,10 +16,10 @@ def shitty_logo(fps, duration, text_path, screen, names=None):
     for i in range(amount):
         logo = pygame.image.load(paths[i])
         loc = (screen.get_size()[0] / 2 - logo.get_size()[0] / 2, screen.get_size()[1] / 2 - logo.get_size()[1] / 2)
-        for i2 in range(int(counter / amount)):
-            screen.fill((0, 0, 0))
-            screen.blit(logo, loc)
-            pygame.display.update()
+        screen.fill((0, 0, 0))
+        screen.blit(logo, loc)
+        pygame.display.update()
+        time.sleep(duration / amount)
 
 
 class Button:
@@ -71,7 +71,7 @@ clock = pygame.time.Clock()
 
 char_text = pygame.image.load("text\\char.png")
 char = char_text.get_rect()
-char.x = 500 / 2 - char.width / 2
+char.x = 250 - char.width / 2
 char.y = 520 - char.height
 char_vector = [0, 0]
 score = 0
@@ -104,13 +104,14 @@ astList = [ast_text.get_rect(), ast_text.get_rect()]
 astFalling = [False, False]
 astCanFall = [False, False]
 x_limit = 500 - astList[0].width
-extra_y = 40
+extra_y = 40 + astList[0].height - 18
 astList[0].x = -50
 
 proj_text = pygame.image.load("text\\proj.png")
 projList = [proj_text.get_rect(), proj_text.get_rect(), proj_text.get_rect()]
 projFired = [False, False, False]
 projHit = [False, False, False]
+spawn_x = char.width / 2 - projList[0].width / 2
 
 font = pygame.font.SysFont("myanmartext", 17)
 font2 = pygame.font.SysFont("consolas", 12)
@@ -121,7 +122,9 @@ combo_text = font31.render("x0", True, (234, 61, 11))
 empty_counter = 81
 
 hearth_text = pygame.image.load("text\\hearth.png")
+hearth_width = hearth_text.get_rect().width
 proj_icon = pygame.image.load("text\\proj_icon.png")
+proj_icon_width = proj_icon.get_rect().width
 run = True
 life_mode = False
 started = False
@@ -130,7 +133,7 @@ update = 0
 listLens = [len(projList), len(astList)]
 empty_sound = pygame.mixer.Sound("sfx\\empty.wav")
 
-shitty_logo(80, 4, "text\\", screen)
+shitty_logo(3, "text\\", screen)
 
 while run:
     mouse_pos = pygame.mouse.get_pos()
@@ -149,7 +152,7 @@ while run:
                 try:
                     f_index = projFired.index(False)  # false index
                     projFired[f_index] = True
-                    projList[f_index].x = char.x + 12
+                    projList[f_index].x = char.x + spawn_x
                     projList[f_index].y = char.y
                 except ValueError:
                     empty_counter = 0
@@ -225,7 +228,7 @@ while run:
     if score_counter == 5:
             speed = 2
     elif score_counter == 10:
-            extra_y = 80
+            extra_y = 80 + astList[0].height - 18
             gravity = 2
     elif score_counter == 15:
             speed = 3
@@ -234,7 +237,7 @@ while run:
     elif score_counter == 20:
             velocity = 4
     elif score_counter == 30:
-            extra_y = 120
+            extra_y = 120 + astList[0].height - 18
     # button1 text update
     if started and button1.text == "Start":
         button1.set_text_attribs("Restart", offsets=[14, 0])
@@ -243,7 +246,7 @@ while run:
 
     for i in range(listLens[0]):  # proj
         for i3 in range(projFired.count(False)):  # icon drawing
-            screen.blit(proj_icon, (10 + i3 * 15, 575, 6, 17))
+            screen.blit(proj_icon, (10 + i3 * (proj_icon_width + 7), 575, 6, 17))
         if projFired[i] is True:
             proj = projList[i]
             proj.move_ip([0, -velocity])
@@ -284,7 +287,7 @@ while run:
                     astFalling[i] = True
     if life_mode:  # hearth
             for i in range(health):
-                screen.blit(hearth_text, (5 + i * 24, 550, 23, 21))
+                screen.blit(hearth_text, (5 + i * (hearth_width + 5), 550, 23, 21))
             if health <= 0:
                 started = False
                 astFalling = [False, False]
