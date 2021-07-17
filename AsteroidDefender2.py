@@ -120,6 +120,7 @@ empty_counter = 81
 hearth_text = pygame.image.load("text\\hearth.png")
 hearth_width = hearth_text.get_rect().width
 proj_icon = pygame.image.load("text\\proj_icon.png")
+proj_icon_width = proj_icon.get_rect().width
 run = True
 life_mode = False
 started = False
@@ -241,7 +242,7 @@ while run:
 
     for i in range(listLens[0]):  # proj
         for i3 in range(projFired.count(False)):  # icon drawing
-            screen.blit(proj_icon, (10 + i3 * 15, 575, 6, 17))
+            screen.blit(proj_icon, (10 + i3 * (proj_icon_width + 7), 575, 6, 17))
         if projFired[i] is True:
             proj = projList[i]
             proj.move_ip([0, -velocity])
