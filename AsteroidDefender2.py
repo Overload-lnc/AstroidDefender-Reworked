@@ -118,6 +118,7 @@ combo_text = font3.render("x0", True, (234, 61, 11))
 empty_counter = 81
 
 hearth_text = pygame.image.load("text\\hearth.png")
+hearth_width = hearth_text.get_rect().width
 proj_icon = pygame.image.load("text\\proj_icon.png")
 run = True
 life_mode = False
@@ -281,7 +282,7 @@ while run:
                     astFalling[i] = True
     if life_mode:  # hearth
             for i in range(health):
-                screen.blit(hearth_text, (5 + i * 24, 550, 23, 21))
+                screen.blit(hearth_text, (5 + i * (hearth_width + 5), 550, 23, 21))
             if health <= 0:
                 started = False
                 astFalling = [False, False]
