@@ -60,6 +60,9 @@ class Button:
 
 
 pygame.init()
+pygame.font.init()
+font31 = pygame.font.Font("fonts/Montserrat.ttf", 30)
+font32 = pygame.font.Font("fonts/Montserrat.ttf", 15)
 screen = pygame.display.set_mode((500, 600))
 pygame.display.set_caption("Asteroid Defender 2")
 # pygame.display.set_icon(path) : used for giving the game screen a custom icon
@@ -82,19 +85,19 @@ shiftEnable = False
 # start/restart
 button1 = Button(310, 540, 80, 20)
 button1.set_shape_attribs(0, (255, 255, 255), (150, 150, 150))
-button1.set_text_attribs("Start", (0, 0, 0), pygame.font.SysFont("arial", 14), [26, 2])
+button1.set_text_attribs("Start", (0, 0, 0), pygame.font.Font("fonts/roboto.ttf", 14), [22, 0])
 # life mode
 button2 = Button(310, 565, 80, 20)
 button2.set_shape_attribs(0, (255, 255, 255), (150, 150, 150))
-button2.set_text_attribs("Life Mode", (0, 0, 0), pygame.font.SysFont("arial", 14), [16, 2])
+button2.set_text_attribs("Life Mode", (0, 0, 0), pygame.font.Font("fonts/roboto.ttf", 14), [4, 0])
 # quit
 button3 = Button(400, 540, 80, 20)
 button3.set_shape_attribs(0, (255, 0, 0), (255, 60, 60))
-button3.set_text_attribs("Quit", (0, 0, 0), pygame.font.SysFont("arial", 14), [28, 2])
+button3.set_text_attribs("Quit", (0, 0, 0), pygame.font.Font("fonts/roboto.ttf", 14), [24, 0])
 # extra ammo
 button4 = Button(400, 565, 80, 20)
 button4.set_shape_attribs(0, (255, 255, 255), (150, 150, 150))
-button4.set_text_attribs("Extra Ammo", (0, 0, 0), pygame.font.SysFont("arial", 14), [10, 2])
+button4.set_text_attribs("Extra Ammo", (0, 0, 0), pygame.font.Font("fonts/roboto.ttf", 13), [0, 0])
 
 ast_text = pygame.image.load("text\\ast.png")
 astList = [ast_text.get_rect(), ast_text.get_rect()]
@@ -112,9 +115,9 @@ projHit = [False, False, False]
 font = pygame.font.SysFont("myanmartext", 17)
 font2 = pygame.font.SysFont("consolas", 12)
 font3 = pygame.font.SysFont("bauhaus93", 16)
-text = font.render("Score: 0", True, (255, 255, 255))
-empty_clip = font2.render("EMPTY CLIP", True, (255, 0, 0))
-combo_text = font3.render("x0", True, (234, 61, 11))
+text = font31.render("Score: 0", True, (255, 255, 255))
+empty_clip = font32.render("EMPTY CLIP", True, (255, 0, 0))
+combo_text = font31.render("x0", True, (234, 61, 11))
 empty_counter = 81
 
 hearth_text = pygame.image.load("text\\hearth.png")
@@ -234,9 +237,9 @@ while run:
             extra_y = 120
     # button1 text update
     if started and button1.text == "Start":
-        button1.set_text_attribs("Restart", offsets=[22, 2])
+        button1.set_text_attribs("Restart", offsets=[14, 0])
     elif not started and button1.text == "Restart":
-        button1.set_text_attribs("Start", offsets=[26, 2])
+        button1.set_text_attribs("Start", offsets=[26, 0])
 
     for i in range(listLens[0]):  # proj
         for i3 in range(projFired.count(False)):  # icon drawing
@@ -259,7 +262,7 @@ while run:
                             score += 1 * ((combo + 5) // 5)
                             score_counter += 1
                             combo += 1
-                            combo_text = font3.render(f"x{combo}", True, (234, 61, 11))
+                            combo_text = font31.render(f"x{combo}", True, (234, 61, 11))
                             combo_counter = 0
                             combo_loc = (proj2.x, proj2.y)
                             astFalling[i2] = False
@@ -294,12 +297,12 @@ while run:
         combo_counter += 1
     if shiftEnable:
         if shiftPressed:
-            status = font.render(f"Speed: Slow", True, (255, 255, 255))
+            status = font31.render(f"Speed: Slow", True, (255, 255, 255))
         else:
-            status = font.render(f"Speed: Normal", True, (255, 255, 255))
+            status = font31.render(f"Speed: Normal", True, (255, 255, 255))
         screen.blit(status, (140, 570))
     screen.blit(char_text, char)
-    text = font.render(f"Score: {score}", True, (255, 255, 255))
+    text = font31.render(f"Score: {score}", True, (255, 255, 255))
     screen.blit(text, (140, 544))
     button1.draw(screen)
     button3.draw(screen)
