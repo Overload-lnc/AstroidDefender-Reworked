@@ -2,7 +2,7 @@ import random
 import pygame
 import time
 from pygame.locals import *
-
+# bu yourumu yazan okuyana kosun
 
 def shitty_logo(duration, text_path, screen, names=None):
     text_path += "\\" if text_path[-1] != "\\" else ""
