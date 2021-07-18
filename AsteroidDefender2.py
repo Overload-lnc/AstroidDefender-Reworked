@@ -300,9 +300,9 @@ while run:
         combo_counter += 1
     if shiftEnable:
         if shiftPressed:
-            status = font31.render(f"Speed: Slow", True, (255, 255, 255))
+            status = font32.render(f"Speed: Slow", True, (255, 255, 255))
         else:
-            status = font31.render(f"Speed: Normal", True, (255, 255, 255))
+            status = font32.render(f"Speed: Normal", True, (255, 255, 255))
         screen.blit(status, (140, 570))
     screen.blit(char_text, char)
     text = font31.render(f"Score: {score}", True, (255, 255, 255))
