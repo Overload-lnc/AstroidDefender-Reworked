@@ -69,7 +69,7 @@ pygame.display.set_caption("Asteroid Defender 2")
 
 clock = pygame.time.Clock()
 
-char_text = pygame.image.load("text\\char.png")
+char_text = pygame.image.load("text\\char.png").convert_alpha()
 char = char_text.get_rect()
 char.x = 250 - char.width / 2
 char.y = 520 - char.height
@@ -99,7 +99,7 @@ button4 = Button(400, 565, 80, 20)
 button4.set_shape_attribs(0, (255, 255, 255), (150, 150, 150))
 button4.set_text_attribs("Extra Ammo", (0, 0, 0), pygame.font.Font("fonts/roboto.ttf", 13), [0, 0])
 
-ast_text = pygame.image.load("text\\ast.png")
+ast_text = pygame.image.load("text\\ast.png").convert_alpha()
 astList = [ast_text.get_rect(), ast_text.get_rect()]
 astFalling = [False, False]
 astCanFall = [False, False]
@@ -107,7 +107,7 @@ x_limit = 500 - astList[0].width
 extra_y = 40 + astList[0].height - 18
 astList[0].x = -50
 
-proj_text = pygame.image.load("text\\proj.png")
+proj_text = pygame.image.load("text\\proj.png").convert_alpha()
 projList = [proj_text.get_rect(), proj_text.get_rect(), proj_text.get_rect()]
 projFired = [False, False, False]
 projHit = [False, False, False]
@@ -121,9 +121,9 @@ empty_clip = font32.render("EMPTY CLIP", True, (255, 0, 0))
 combo_text = font31.render("x0", True, (234, 61, 11))
 empty_counter = 81
 
-hearth_text = pygame.image.load("text\\hearth.png")
+hearth_text = pygame.image.load("text\\hearth.png").convert()
 hearth_width = hearth_text.get_rect().width
-proj_icon = pygame.image.load("text\\proj_icon.png")
+proj_icon = pygame.image.load("text\\proj_icon.png").convert()
 proj_icon_width = proj_icon.get_rect().width
 run = True
 life_mode = False
