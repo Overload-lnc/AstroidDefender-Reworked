@@ -61,42 +61,44 @@ class Button:
 
 pygame.init()
 pygame.font.init()
-font31 = pygame.font.Font("fonts/Montserrat.ttf", 30)
-font32 = pygame.font.Font("fonts/Montserrat.ttf", 15)
+font1 = pygame.font.Font("fonts/Montserrat.ttf", 30)
+font2 = pygame.font.Font("fonts/Montserrat.ttf", 15)
 screen = pygame.display.set_mode((500, 600))
 pygame.display.set_caption("Asteroid Defender 2")
 # pygame.display.set_icon(path) : used for giving the game screen a custom icon
-
 clock = pygame.time.Clock()
+empty_sound = pygame.mixer.Sound("sfx\\empty.wav")
+
+# start/restart button
+button1 = Button(310, 540, 80, 20)
+button1.set_shape_attribs(0, (255, 255, 255), (150, 150, 150))
+button1.set_text_attribs("Start", (0, 0, 0), pygame.font.Font("fonts/roboto.ttf", 14), [22, 0])
+# life mode button
+button2 = Button(310, 565, 80, 20)
+button2.set_shape_attribs(0, (255, 255, 255), (150, 150, 150))
+button2.set_text_attribs("Life Mode", (0, 0, 0), pygame.font.Font("fonts/roboto.ttf", 14), [4, 0])
+# quit button
+button3 = Button(400, 540, 80, 20)
+button3.set_shape_attribs(0, (255, 0, 0), (255, 60, 60))
+button3.set_text_attribs("Quit", (0, 0, 0), pygame.font.Font("fonts/roboto.ttf", 14), [24, 0])
+# extra ammo button
+button4 = Button(400, 565, 80, 20)
+button4.set_shape_attribs(0, (255, 255, 255), (150, 150, 150))
+button4.set_text_attribs("Extra Ammo", (0, 0, 0), pygame.font.Font("fonts/roboto.ttf", 13), [0, 0])
 
 char_text = pygame.image.load("text\\char.png").convert_alpha()
 char = char_text.get_rect()
 char.midbottom = (250, 520)
 char_vector = [0, 0]
+
 score = 0
-combo = 0
-combo_counter = 81
-combo_loc = (0, 0)
 score_counter = 0
 shiftPressed = False
 shiftEnable = False
 
-# start/restart
-button1 = Button(310, 540, 80, 20)
-button1.set_shape_attribs(0, (255, 255, 255), (150, 150, 150))
-button1.set_text_attribs("Start", (0, 0, 0), pygame.font.Font("fonts/roboto.ttf", 14), [22, 0])
-# life mode
-button2 = Button(310, 565, 80, 20)
-button2.set_shape_attribs(0, (255, 255, 255), (150, 150, 150))
-button2.set_text_attribs("Life Mode", (0, 0, 0), pygame.font.Font("fonts/roboto.ttf", 14), [4, 0])
-# quit
-button3 = Button(400, 540, 80, 20)
-button3.set_shape_attribs(0, (255, 0, 0), (255, 60, 60))
-button3.set_text_attribs("Quit", (0, 0, 0), pygame.font.Font("fonts/roboto.ttf", 14), [24, 0])
-# extra ammo
-button4 = Button(400, 565, 80, 20)
-button4.set_shape_attribs(0, (255, 255, 255), (150, 150, 150))
-button4.set_text_attribs("Extra Ammo", (0, 0, 0), pygame.font.Font("fonts/roboto.ttf", 13), [0, 0])
+combo = 0
+combo_counter = 81
+combo_loc = (0, 0)
 
 ast_text = pygame.image.load("text\\ast.png").convert_alpha()
 astList = [ast_text.get_rect(), ast_text.get_rect()]
@@ -111,25 +113,22 @@ projList = [proj_text.get_rect(), proj_text.get_rect(), proj_text.get_rect()]
 projFired = [False, False, False]
 projHit = [False, False, False]
 
-font = pygame.font.SysFont("myanmartext", 17)
-font2 = pygame.font.SysFont("consolas", 12)
-font3 = pygame.font.SysFont("bauhaus93", 16)
-text = font31.render("Score: 0", True, (255, 255, 255))
-empty_clip = font32.render("EMPTY CLIP", True, (255, 0, 0))
-combo_text = font31.render("x0", True, (234, 61, 11))
+text = font1.render("Score: 0", True, (255, 255, 255))
+empty_clip = font2.render("EMPTY CLIP", True, (255, 0, 0))
+combo_text = font1.render("x0", True, (234, 61, 11))
 empty_counter = 81
 
 hearth_text = pygame.image.load("text\\hearth.png").convert()
 hearth_width = hearth_text.get_rect().width
 proj_icon = pygame.image.load("text\\proj_icon.png").convert()
 proj_icon_width = proj_icon.get_rect().width
+
 run = True
 life_mode = False
 started = False
 health = 0
 update = 0
 listLens = [len(projList), len(astList)]
-empty_sound = pygame.mixer.Sound("sfx\\empty.wav")
 
 shitty_logo(3, "text\\", screen)
 
@@ -148,14 +147,14 @@ while run:
                 shiftPressed = True
             elif event.key == K_SPACE:
                 try:
-                    f_index = projFired.index(False)  # false index
+                    f_index = projFired.index(False)  # find the first false and get it's index
                     projFired[f_index] = True
                     projList[f_index].midtop = char.midtop
                 except ValueError:
                     empty_counter = 0
                     pygame.mixer.Sound.play(empty_sound)
         elif event.type == KEYUP and started:
-            if (event.key == K_a and char_vector[0] in (-1, -2, -3)) or ( event.key == K_d and char_vector[0] in (1, 2, 3)):
+            if (event.key == K_a and char_vector[0] < 0) or ( event.key == K_d and char_vector[0] > 0):
                 char_vector[0] = 0
             elif event.key == K_LSHIFT and shiftEnable:
                 shiftPressed = False
@@ -258,11 +257,11 @@ while run:
                 for i2 in range(listLens[1]):
                     if astFalling[i2] and astCanFall[i2]:
                         proj2 = astList[i2]  # ast object
-                        if proj2.colliderect(proj):  # check if it hit an asteroid
+                        if proj2.colliderect(proj):  # check if it collides with an asteroid
                             score += 1 * ((combo + 5) // 5)
                             score_counter += 1
                             combo += 1
-                            combo_text = font31.render(f"x{combo}", True, (234, 61, 11))
+                            combo_text = font1.render(f"x{combo}", True, (234, 61, 11))
                             combo_counter = 0
                             combo_loc = (proj2.x, proj2.y)
                             astFalling[i2] = False
@@ -275,7 +274,7 @@ while run:
                 if proj.y > 600:  # go down & out the map
                     score -= 1
                     astFalling[i] = False
-                    combo = 0  # combo test
+                    combo = 0
                     health -= int(life_mode)
             else:
                 if astCanFall[i]:
@@ -297,12 +296,12 @@ while run:
         combo_counter += 1
     if shiftEnable:
         if shiftPressed:
-            status = font32.render(f"Speed: Slow", True, (255, 255, 255))
+            status = font2.render(f"Speed: Slow", True, (255, 255, 255))
         else:
-            status = font32.render(f"Speed: Normal", True, (255, 255, 255))
+            status = font2.render(f"Speed: Normal", True, (255, 255, 255))
         screen.blit(status, (140, 570))
     screen.blit(char_text, char)
-    text = font31.render(f"Score: {score}", True, (255, 255, 255))
+    text = font1.render(f"Score: {score}", True, (255, 255, 255))
     screen.blit(text, (140, 544))
     button1.draw(screen)
     button3.draw(screen)
