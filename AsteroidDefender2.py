@@ -61,11 +61,13 @@ class Button:
 
 pygame.init()
 pygame.font.init()
+logoico = pygame.image.load("text/char.ico")
+pygame.display.set_icon(logoico)
 font1 = pygame.font.Font("fonts/Montserrat.ttf", 30)
 font2 = pygame.font.Font("fonts/Montserrat.ttf", 15)
 screen = pygame.display.set_mode((500, 600))
 pygame.display.set_caption("Asteroid Defender 2")
-# pygame.display.set_icon(path) : used for giving the game screen a custom icon
+# pygame.display.set_icon(path) : used for giving the game screen a custom icon / i didnt see this until i finished writing fuck you eren
 clock = pygame.time.Clock()
 empty_sound = pygame.mixer.Sound("sfx\\empty.wav")
 
