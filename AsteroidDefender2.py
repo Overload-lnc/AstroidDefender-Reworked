@@ -110,7 +110,6 @@ proj_text = pygame.image.load("text\\proj.png").convert_alpha()
 projList = [proj_text.get_rect(), proj_text.get_rect(), proj_text.get_rect()]
 projFired = [False, False, False]
 projHit = [False, False, False]
-spawn_x = char.width / 2 - projList[0].width / 2
 
 font = pygame.font.SysFont("myanmartext", 17)
 font2 = pygame.font.SysFont("consolas", 12)
@@ -151,8 +150,7 @@ while run:
                 try:
                     f_index = projFired.index(False)  # false index
                     projFired[f_index] = True
-                    projList[f_index].x = char.x + spawn_x
-                    projList[f_index].y = char.y
+                    projList[f_index].midtop = char.midtop
                 except ValueError:
                     empty_counter = 0
                     pygame.mixer.Sound.play(empty_sound)
