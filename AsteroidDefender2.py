@@ -71,8 +71,7 @@ clock = pygame.time.Clock()
 
 char_text = pygame.image.load("text\\char.png").convert_alpha()
 char = char_text.get_rect()
-char.x = 250 - char.width / 2
-char.y = 520 - char.height
+char.midbottom = (250, 520)
 char_vector = [0, 0]
 score = 0
 combo = 0
